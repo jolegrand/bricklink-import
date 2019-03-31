@@ -112,10 +112,6 @@ def main():
     args = parser.parse_args()
     username = args.username
     password = args.password
-    list_file = args.file
-    if re.search(".bsx$", list_file)==None:
-        sys.exit("Please provide a .bsx file")
-    list_name = args.name
     if username==None or password==None:
         sys.exit("Please enter username and password using the -u and -p options")
 
@@ -129,6 +125,14 @@ def main():
 
     login()
 
+    if args.file:
+        list_file = args.file
+        if re.search(".bsx$", list_file)==None:
+            sys.exit("Please provide a .bsx file")
+        list_name = args.name
+        adding_list(list_name, list_file)
+        exit()
+    
     if args.all:
         verbose("Importing all files in " + args.all)
         for f in os.listdir(args.all):
@@ -136,10 +140,7 @@ def main():
                 list_name_ = re.search("(^[^/]+).bsx", f).groups()[0]
                 print(list_name_)
                 adding_list(list_name_, args.all + "/" + f)
-    else:
-        print("toto")
-        adding_list(list_name, list_file)
-
+        exit()
   
 
 if __name__ == '__main__':
